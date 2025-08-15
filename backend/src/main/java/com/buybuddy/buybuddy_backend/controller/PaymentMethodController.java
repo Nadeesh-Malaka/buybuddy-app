@@ -55,7 +55,13 @@ public class PaymentMethodController {
         } catch (RuntimeException e) {
             System.err.println("Error updating payment method: " + e.getMessage());
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error: " + e.getMessage());
+        } catch (Exception e) {
+            System.err.println("Unexpected error updating payment method: " + e.getMessage());
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Unexpected error occurred");
         }
     }
 
@@ -66,7 +72,13 @@ public class PaymentMethodController {
             PaymentMethod defaultPaymentMethod = paymentMethodService.setDefaultPaymentMethod(paymentMethodId);
             return ResponseEntity.ok(defaultPaymentMethod);
         } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error: " + e.getMessage());
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error: " + e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Unexpected error occurred");
         }
     }
 

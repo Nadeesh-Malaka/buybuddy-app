@@ -84,11 +84,15 @@ public class PaymentMethodService {
         }
         
         paymentMethod.setBillingAddress(null); // Remove billing address requirement
-        paymentMethod.setIsDefault(paymentMethodDTO.getIsDefault() != null ? paymentMethodDTO.getIsDefault() : false);
-
-        // If this is set as default, reset other defaults
-        if (paymentMethod.getIsDefault()) {
+        
+        // Handle isDefault properly
+        Boolean isDefault = paymentMethodDTO.getIsDefault();
+        if (isDefault != null && isDefault) {
+            // If this is set as default, reset other defaults first
             paymentMethodRepository.resetDefaultPaymentMethod(paymentMethod.getUser());
+            paymentMethod.setIsDefault(true);
+        } else if (isDefault != null) {
+            paymentMethod.setIsDefault(false);
         }
 
         return paymentMethodRepository.save(paymentMethod);
@@ -102,7 +106,9 @@ public class PaymentMethodService {
         }
 
         PaymentMethod paymentMethod = paymentMethodOpt.get();
+        // Reset all other payment methods to non-default first
         paymentMethodRepository.resetDefaultPaymentMethod(paymentMethod.getUser());
+        // Then set this one as default
         paymentMethod.setIsDefault(true);
         
         return paymentMethodRepository.save(paymentMethod);
