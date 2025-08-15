@@ -31,6 +31,23 @@ function DealsProductCard({ product, addToCart }) {
     setTimeout(() => setIsAdded(false), 1000);
   };
 
+  // Handle image URL - if it starts with /uploads, add backend server URL
+  const getImageUrl = (imageUrl) => {
+    if (!imageUrl) return '/placeholder-image.png'; // Fallback image
+    if (imageUrl.startsWith('/uploads')) {
+      return `http://localhost:8080${imageUrl}`;
+    }
+    if (imageUrl.startsWith('http')) {
+      return imageUrl; // Already a full URL
+    }
+    // For local images (legacy support)
+    try {
+      return require(`../../assets/${imageUrl.split('/').pop()}`);
+    } catch (err) {
+      return '/placeholder-image.png';
+    }
+  };
+
   // Use the discount data passed from the Deals component
   const { originalPrice, discountedPrice, discountPercentage, savings } = product;
   const hasDiscount = discountPercentage && discountPercentage > 0;
@@ -40,7 +57,7 @@ function DealsProductCard({ product, addToCart }) {
       {hasDiscount && (
         <span className="discount-badge">{discountPercentage}% OFF</span>
       )}
-      <img src={product.image} alt={product.name} className="product-image" />
+      <img src={getImageUrl(product.image)} alt={product.name} className="product-image" />
       <div className="product-info">
         <Link to={`/product/${product.id}`} className="product-name">
           <h5>{product.name}</h5>

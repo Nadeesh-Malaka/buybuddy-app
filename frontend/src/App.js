@@ -14,6 +14,7 @@ import ProfilePage from './Pages/Profile/ProfilePage';
 import AddressesPage from './Pages/Addresses/AddressesPage'; // Import AddressesPage
 import PaymentMethodsPage from './Pages/PaymentMethods/PaymentMethodsPage'; // Import PaymentMethodsPage
 import OrderHistoryPage from './Pages/OrderHistory/OrderHistoryPage'; // Import OrderHistoryPage
+import AdminPage from './Pages/Admin/AdminPage'; // Import AdminPage
 import { CartProvider } from './context/CartContext';
 import { UserProvider } from './context/UserContext';
 
@@ -40,6 +41,7 @@ function App() {
                 <Route path="/addresses" element={<AddressesPage />} />
                 <Route path="/payment-methods" element={<PaymentMethodsPage />} />
                 <Route path="/order-history" element={<OrderHistoryPage />} />
+                <Route path="/admin" element={<AdminPage />} />
               </Routes>
             </main>
           </div>
