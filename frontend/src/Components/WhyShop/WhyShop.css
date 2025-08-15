@@ -1,0 +1,72 @@
+/* src/Components/WhyShop/WhyShop.css */
+.why-shop {
+    background-color: #f8f9fa; /* Light gray background like ShopMini */
+    padding: 40px 20px;
+  }
+  
+  .why-shop-title {
+    font-size: 2rem;
+    font-weight: 600;
+    color: #333;
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  
+  .why-shop-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 0 auto;
+    gap: 20px;
+  }
+  
+  .why-shop-item {
+    flex: 1;
+    min-width: 250px;
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .why-shop-icon {
+    background-color: #e0e7ff; /* Light blue background for icons */
+    color: #3b5bdb; /* Blue icon color to match theme */
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 15px;
+  }
+  
+  .why-shop-icon i {
+    font-size: 1.5rem;
+  }
+  
+  .why-shop-item h5 {
+    font-size: 1.2rem;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .why-shop-item p {
+    font-size: 0.9rem;
+    color: #666;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 767px) {
+    .why-shop-container {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .why-shop-item {
+      max-width: 300px;
+    }
+  
+    .why-shop-title {
+      font-size: 1.5rem;
+    }
+  }

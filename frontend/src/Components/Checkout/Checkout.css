@@ -1,0 +1,130 @@
+/* src/Components/Checkout/Checkout.css */
+.checkout {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+  }
+  
+  .checkout-header {
+    margin-bottom: 20px;
+  }
+  
+  .back-to-cart {
+    display: inline-flex;
+    align-items: center;
+    color: #3b5bdb;
+    text-decoration: none;
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+  }
+  
+  .back-to-cart i {
+    margin-right: 5px;
+  }
+  
+  .checkout-header h2 {
+    font-size: 1.5rem;
+    color: #333;
+  }
+  
+  .checkout-body {
+    display: flex;
+    gap: 20px;
+  }
+  
+  .checkout-form {
+    flex: 2;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+  }
+  
+  .checkout-form h5 {
+    font-size: 1.2rem;
+    color: #333;
+    margin-bottom: 15px;
+  }
+  
+  .form-row {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+  }
+  
+  .form-group {
+    flex: 1;
+  }
+  
+  .form-group label {
+    display: block;
+    font-size: 0.9rem;
+    color: #333;
+    margin-bottom: 5px;
+  }
+  
+  .form-group input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #d1d5db;
+    border-radius: 5px;
+    font-size: 0.9rem;
+  }
+  
+  .checkout-summary {
+    flex: 1;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+  }
+  
+  .checkout-summary h5 {
+    font-size: 1.2rem;
+    color: #333;
+    margin-bottom: 15px;
+  }
+  
+  .summary-item {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 10px;
+  }
+  
+  .summary-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+    color: #666;
+  }
+  
+  .summary-row.total {
+    font-weight: bold;
+    color: #333;
+    border-top: 1px solid #d1d5db;
+    padding-top: 10px;
+    margin-top: 10px;
+  }
+  
+  .checkout-summary .btn-primary {
+    background-color: #3b5bdb;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 10px;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 767px) {
+    .checkout-body {
+      flex-direction: column;
+    }
+  
+    .form-row {
+      flex-direction: column;
+      gap: 10px;
+    }
+  }

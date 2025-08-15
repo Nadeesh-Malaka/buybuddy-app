@@ -1,0 +1,8 @@
+users (id [PK], email, password, profile_pic)
+addresses (id [PK], user_id [FK], street, city, state, zip, country)
+payment_methods (id [PK], user_id [FK], type, details)
+categories (id [PK], name)
+products (id [PK], category_id [FK], name, price, description, image_url, stock)
+cart_items (id [PK], user_id [FK], product_id [FK], quantity)
+orders (id [PK], user_id [FK], total_amount, status, created_at, address_id [FK], payment_method_id [FK])
+order_items (id [PK], order_id [FK], product_id [FK], quantity, price_at_purchase)

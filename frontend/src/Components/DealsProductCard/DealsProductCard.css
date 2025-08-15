@@ -1,0 +1,158 @@
+/* src/Components/DealsProductCard/DealsProductCard.css */
+.deals-product-card {
+    position: relative;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.2s ease;
+    width: 100%;
+    max-width: 300px;
+}
+
+.deals-product-card:hover {
+    transform: translateY(-5px);
+}
+
+.discount-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: #dc3545;
+    color: white;
+    font-size: 0.8rem;
+    padding: 5px 10px;
+    border-radius: 15px;
+}
+
+.product-image {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    display: block;
+}
+
+.product-info {
+    padding: 15px;
+}
+
+.product-info h5 {
+    font-size: 1.1rem;
+    margin: 0 0 8px;
+    color: #333;
+}
+
+.product-name {
+    text-decoration: none;
+    color: inherit;
+}
+
+.product-name:hover h5 {
+    color: #3b5bdb;
+}
+
+.product-rating {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.product-rating i {
+    color: #f39c12;
+    font-size: 0.9rem;
+    margin-right: 2px;
+}
+
+.product-rating span {
+    font-size: 0.9rem;
+    color: #666;
+    margin-left: 5px;
+}
+
+.product-description {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 10px;
+    line-height: 1.4;
+}
+
+.product-add-to-cart {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.price-section {
+    display: flex;
+    flex-direction: column;
+}
+
+.product-price {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.product-price.discounted {
+    color: #dc3545;
+}
+
+.original-price {
+    font-size: 0.9rem;
+    color: #666;
+    text-decoration: line-through;
+    margin-bottom: 5px;
+}
+
+.savings {
+    font-size: 0.8rem;
+    color: #28a745;
+}
+
+.add-to-cart-wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.product-add-to-cart button {
+    background-color: #3b5bdb;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.product-add-to-cart button:hover {
+    background-color: #2a4bb5;
+}
+
+.product-add-to-cart button i {
+    font-size: 1.2rem;
+}
+
+.success-message {
+    position: absolute;
+    top: 45px;
+    background-color: #28a745;
+    color: white;
+    font-size: 0.8rem;
+    padding: 2px 8px;
+    border-radius: 3px;
+    white-space: nowrap;
+}
+
+@media (max-width: 767px) {
+    .deals-product-card {
+        margin: 0 auto;
+        max-width: 300px;
+    }
+}

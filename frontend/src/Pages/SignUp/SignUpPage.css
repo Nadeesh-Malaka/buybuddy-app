@@ -1,0 +1,156 @@
+/* src/Pages/SignUp/SignUpPage.css */
+.signup-page {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  
+  .signup-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+    background-color: #fff; /* White background to match ShopMini */
+  }
+  
+  .signup-form {
+    background-color: white;
+    padding: 30px 40px; /* Adjusted padding to match ShopMini */
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Softer shadow */
+    width: 100%;
+    max-width: 450px; /* Slightly wider to match ShopMini */
+  }
+  
+  .form-header {
+    text-align: center;
+    margin-bottom: 20px; /* Reduced margin for tighter spacing */
+  }
+  
+  .form-header i {
+    font-size: 1.5rem; /* Smaller icon to match ShopMini */
+    color: #3b5bdb;
+    background-color: #e7efff;
+    border-radius: 50%;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .form-header h2 {
+    font-size: 1.8rem; /* Adjusted to match ShopMini */
+    color: #333;
+    margin-bottom: 5px;
+    font-weight: 600;
+  }
+  
+  .form-header p {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 20px;
+  }
+  
+  .form-group {
+    margin-bottom: 15px; /* Reduced spacing between fields */
+  }
+  
+  .form-group label {
+    display: block;
+    font-size: 0.8rem; /* Smaller label font to match ShopMini */
+    color: #666;
+    margin-bottom: 5px;
+    font-weight: 500;
+    text-transform: uppercase; /* Match uppercase labels */
+  }
+  
+  .form-group input[type="text"],
+  .form-group input[type="email"],
+  .form-group input[type="password"] {
+    width: 100%;
+    padding: 12px; /* Increased padding for input fields */
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    color: #333;
+    background-color: #f8f9fa; /* Light gray background for inputs */
+  }
+  
+  .form-group input[type="text"]:focus,
+  .form-group input[type="email"]:focus,
+  .form-group input[type="password"]:focus {
+    outline: none;
+    border-color: #3b5bdb;
+    background-color: #fff;
+  }
+  
+  .form-group.terms {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .form-group.terms input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+  }
+  
+  .form-group.terms label {
+    font-size: 0.85rem; /* Smaller font for terms */
+    color: #666;
+    text-transform: none; /* No uppercase for terms text */
+  }
+  
+  .form-group.terms a {
+    color: #3b5bdb;
+    text-decoration: none;
+  }
+  
+  .form-group.terms a:hover {
+    text-decoration: underline;
+  }
+  
+  .signup-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: #3b5bdb;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .signup-btn:hover {
+    background-color: #2a4bb5;
+  }
+  
+  .signin-link {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 0.85rem;
+    color: #666;
+  }
+  
+  .signin-link a {
+    color: #3b5bdb;
+    text-decoration: none;
+  }
+  
+  .signin-link a:hover {
+    text-decoration: underline;
+  }
+  
+  @media (max-width: 767px) {
+    .signup-form {
+      padding: 20px;
+      max-width: 90%;
+    }
+  
+    .signup-container {
+      padding: 20px;
+    }
+  }

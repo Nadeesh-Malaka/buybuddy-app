@@ -1,0 +1,58 @@
+/* src/Components/Header/Header.css */
+.header-section {
+    background: linear-gradient(90deg, #3b5bdb, #6b48ff); /* Matches ShopMini's gradient */
+    color: white;
+    text-align: center;
+    padding: 60px 20px; /* Vertical padding for height, horizontal for smaller screens */
+    margin: 20px; /* Space around all 4 corners */
+    border-radius: 15px; /* Rounded corners */
+  }
+  
+  .header-section h1 {
+    font-size: 2.5rem; /* Matches ShopMini's large heading */
+    margin-bottom: 10px;
+    font-weight: 300; /* Lighter font weight like ShopMini */
+  }
+  
+  .header-section p {
+    font-size: 1.25rem; /* Matches ShopMini's subtext size */
+    margin-bottom: 20px;
+    font-weight: 300;
+  }
+  
+  .header-section a {
+    background-color: white;
+    color: #3b5bdb; /* Blue text to match the theme */
+    padding: 12px 30px;
+    border-radius: 25px; /* Rounded button */
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-weight: 500;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  .header-section a:hover {
+    background-color: #e0e0e0;
+    color: #2a4bb5;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 767px) {
+    .header-section {
+      padding: 40px 15px;
+      margin: 15px;
+    }
+  
+    .header-section h1 {
+      font-size: 2rem;
+    }
+  
+    .header-section p {
+      font-size: 1rem;
+    }
+  
+    .header-section a {
+      padding: 10px 25px;
+      font-size: 1rem;
+    }
+  }

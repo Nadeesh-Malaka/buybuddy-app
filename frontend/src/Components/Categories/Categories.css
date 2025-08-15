@@ -1,0 +1,45 @@
+/* src/Components/Categories/Categories.css */
+.categories {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+  }
+  
+  .categories-header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  
+  .categories-header h2 {
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .categories-header p {
+    font-size: 1rem;
+    color: #666;
+  }
+  
+  .category-section {
+    margin-bottom: 40px;
+  }
+  
+  .category-section h3 {
+    font-size: 1.3rem;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .category-products {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Ensure consistent column width */
+    gap: 20px;
+     
+  }
+  
+  @media (max-width: 767px) {
+    .category-products {
+      grid-template-columns: 1fr; /* Single column on mobile */
+    }
+  }
