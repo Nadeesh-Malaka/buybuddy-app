@@ -78,11 +78,15 @@ public class AddressService {
         address.setZipCode(addressDTO.getZipCode());
         address.setCountry(addressDTO.getCountry());
         address.setAddressType(addressDTO.getAddressType());
-        address.setIsDefault(addressDTO.getIsDefault() != null ? addressDTO.getIsDefault() : false);
-
-        // If this is set as default, reset other defaults
-        if (address.getIsDefault()) {
+        
+        // Handle isDefault properly
+        Boolean isDefault = addressDTO.getIsDefault();
+        if (isDefault != null && isDefault) {
+            // If this is set as default, reset other defaults first
             addressRepository.resetDefaultAddress(address.getUser());
+            address.setIsDefault(true);
+        } else if (isDefault != null) {
+            address.setIsDefault(false);
         }
 
         return addressRepository.save(address);
@@ -96,7 +100,9 @@ public class AddressService {
         }
 
         Address address = addressOpt.get();
+        // Reset all other addresses to non-default first
         addressRepository.resetDefaultAddress(address.getUser());
+        // Then set this one as default
         address.setIsDefault(true);
         
         return addressRepository.save(address);

@@ -50,7 +50,13 @@ public class AddressController {
             Address updatedAddress = addressService.updateAddress(addressId, addressDTO);
             return ResponseEntity.ok(updatedAddress);
         } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error: " + e.getMessage());
+            e.printStackTrace(); // Add logging for debugging
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error: " + e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace(); // Add logging for debugging
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Unexpected error occurred");
         }
     }
 
@@ -61,7 +67,13 @@ public class AddressController {
             Address defaultAddress = addressService.setDefaultAddress(addressId);
             return ResponseEntity.ok(defaultAddress);
         } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error: " + e.getMessage());
+            e.printStackTrace(); // Add logging for debugging
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error: " + e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace(); // Add logging for debugging
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Unexpected error occurred");
         }
     }
 
