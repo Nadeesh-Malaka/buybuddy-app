@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import jakarta.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,6 +20,7 @@ public interface AddressRepository extends JpaRepository<Address, Integer> {
     Optional<Address> findByUserAndIsDefaultTrue(User user);
     
     @Modifying
+    @Transactional
     @Query("UPDATE Address a SET a.isDefault = false WHERE a.user = :user")
     void resetDefaultAddress(@Param("user") User user);
 }

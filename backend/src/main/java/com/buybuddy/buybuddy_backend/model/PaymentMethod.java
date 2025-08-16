@@ -1,5 +1,6 @@
 package com.buybuddy.buybuddy_backend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -14,6 +15,7 @@ public class PaymentMethod {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "addresses", "paymentMethods", "password"})
     private User user;
 
     @Column(nullable = false)

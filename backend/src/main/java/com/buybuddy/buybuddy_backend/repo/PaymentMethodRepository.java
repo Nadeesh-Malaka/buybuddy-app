@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import jakarta.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,6 +20,7 @@ public interface PaymentMethodRepository extends JpaRepository<PaymentMethod, In
     Optional<PaymentMethod> findByUserAndIsDefaultTrue(User user);
     
     @Modifying
+    @Transactional
     @Query("UPDATE PaymentMethod p SET p.isDefault = false WHERE p.user = :user")
     void resetDefaultPaymentMethod(@Param("user") User user);
 }

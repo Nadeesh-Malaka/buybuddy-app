@@ -23,6 +23,25 @@ function ProfilePage() {
     password: '',
   });
 
+  // Update form data when user data is available
+  React.useEffect(() => {
+    if (user) {
+      setFormData({
+        name: user.name || '',
+        email: user.email || '',
+        number: user.number || '',
+        password: '',
+      });
+    }
+  }, [user]);
+
+  // Handle authentication redirect
+  React.useEffect(() => {
+    if (!loading && !isLoggedIn) {
+      navigate('/login');
+    }
+  }, [loading, isLoggedIn, navigate]);
+
   // Show loading while checking authentication
   if (loading) {
     return (
@@ -40,21 +59,8 @@ function ProfilePage() {
 
   // Redirect if not logged in (only after loading is complete)
   if (!loading && !isLoggedIn) {
-    navigate('/login');
     return null;
   }
-
-  // Update form data when user data is available
-  React.useEffect(() => {
-    if (user) {
-      setFormData({
-        name: user.name || '',
-        email: user.email || '',
-        number: user.number || '',
-        password: '',
-      });
-    }
-  }, [user]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;

@@ -20,6 +20,25 @@
     font-size: 1rem;
     color: #666;
   }
+
+  .categories-header .error {
+    color: #e74c3c;
+    font-weight: bold;
+  }
+
+  .categories-header button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+
+  .categories-header button:hover {
+    background-color: #2980b9;
+  }
   
   .category-section {
     margin-bottom: 40px;
@@ -33,9 +52,8 @@
   
   .category-products {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Ensure consistent column width */
-    gap: 20px;
-     
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Reverted back */
+    gap: 20px; /* Reverted back */
   }
   
   @media (max-width: 767px) {

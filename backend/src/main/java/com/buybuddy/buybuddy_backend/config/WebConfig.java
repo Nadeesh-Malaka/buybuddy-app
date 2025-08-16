@@ -9,7 +9,7 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        // Serve uploaded files
+        // Serve uploaded files (profile pictures and product images)
         registry.addResourceHandler("/uploads/**")
                 .addResourceLocations("file:uploads/");
                 
