@@ -53,13 +53,43 @@
 .navbar-search {
   flex-grow: 1; /* Prevents search bar from taking too much space */
   margin: 0 20px;
+  position: relative;
+  display: flex;
+  align-items: center;
 }
 
 .navbar-search input {
   width: 200px; /* Compact width to match ShopMini */
   border-radius: 20px;
   border: 1px solid #d1d5db;
-  padding: 8px 15px;
+  padding: 8px 40px 8px 15px; /* Add padding for search button */
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.navbar-search input:focus {
+  border-color: #3b5bdb;
+}
+
+.search-btn {
+  position: absolute;
+  right: 5px;
+  background: none;
+  border: none;
+  color: #666;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 50%;
+  transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+.search-btn:hover {
+  color: #3b5bdb;
+  background-color: #f0f0f0;
+}
+
+.search-btn i {
   font-size: 0.9rem;
 }
 

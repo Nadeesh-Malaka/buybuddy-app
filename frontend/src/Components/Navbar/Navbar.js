@@ -11,8 +11,9 @@ function Navbar() {
   const { user, isLoggedIn, logout } = useUser(); // Get user state from context
   const navigate = useNavigate();
 
-  // State for dropdown menu
+  // State for dropdown menu and search
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
 
   // Function to toggle dropdown
   const toggleDropdown = () => {
@@ -26,6 +27,27 @@ function Navbar() {
     setIsDropdownOpen(false);
     navigate('/');
     console.log("User logged out");
+  };
+
+  // Function to handle search
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+      setSearchQuery(''); // Clear search input
+    }
+  };
+
+  // Handle search input change
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
+  // Handle search on Enter key
+  const handleSearchKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleSearch(e);
+    }
   };
 
   return (
@@ -68,8 +90,18 @@ function Navbar() {
           </ul>
 
           {/* Search Bar */}
-          <form className="navbar-search">
-            <input type="search" placeholder="Search products..." aria-label="Search" />
+          <form className="navbar-search" onSubmit={handleSearch}>
+            <input 
+              type="search" 
+              placeholder="Search products..." 
+              aria-label="Search"
+              value={searchQuery}
+              onChange={handleSearchChange}
+              onKeyPress={handleSearchKeyPress}
+            />
+            <button type="submit" className="search-btn" aria-label="Search">
+              <i className="bi bi-search"></i>
+            </button>
           </form>
 
           {/* Icons (Cart and User) */}
