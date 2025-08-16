@@ -31,6 +31,14 @@ function DealsProductCard({ product, addToCart }) {
     setTimeout(() => setIsAdded(false), 1000);
   };
 
+  // Construct full image URL
+  const getImageUrl = (imagePath) => {
+    if (!imagePath) return '/api/placeholder/250/250';
+    if (imagePath.startsWith('http')) return imagePath;
+    // Backend returns the full path including /uploads/
+    return `http://localhost:8080${imagePath}`;
+  };
+
   // Use the discount data passed from the Deals component
   const { originalPrice, discountedPrice, discountPercentage, savings } = product;
   const hasDiscount = discountPercentage && discountPercentage > 0;
@@ -40,26 +48,26 @@ function DealsProductCard({ product, addToCart }) {
       {hasDiscount && (
         <span className="discount-badge">{discountPercentage}% OFF</span>
       )}
-      <img src={product.image} alt={product.name} className="product-image" />
+      <img src={getImageUrl(product.image || product.imageUrl)} alt={product.name} className="product-image" />
       <div className="product-info">
         <Link to={`/product/${product.id}`} className="product-name">
           <h5>{product.name}</h5>
         </Link>
         <div className="product-rating">
-          {renderStars(product.rating)}
-          <span>({product.rating})</span>
+          {renderStars(product.rating || 0)}
+          <span>({product.rating || 0})</span>
         </div>
         <p className="product-description">{product.description}</p>
         <div className="product-add-to-cart">
           <div className="price-section">
             {hasDiscount ? (
               <>
-                <span className="product-price discounted">${discountedPrice.toFixed(2)}</span>
-                <span className="original-price">${originalPrice.toFixed(2)}</span>
-                <span className="savings">Save ${savings.toFixed(2)}</span>
+                <span className="product-price discounted">${(discountedPrice || 0).toFixed(2)}</span>
+                <span className="original-price">${(originalPrice || 0).toFixed(2)}</span>
+                <span className="savings">Save ${(savings || 0).toFixed(2)}</span>
               </>
             ) : (
-              <span className="product-price">${originalPrice.toFixed(2)}</span>
+              <span className="product-price">${(originalPrice || product.price || 0).toFixed(2)}</span>
             )}
           </div>
           <div className="add-to-cart-wrapper">
