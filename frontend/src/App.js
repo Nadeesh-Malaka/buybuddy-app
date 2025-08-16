@@ -18,16 +18,19 @@ import OrderHistoryPage from './Pages/OrderHistory/OrderHistoryPage'; // Import 
 import AdminPage from './Pages/Admin/AdminPage'; // Import AdminPage
 import { CartProvider } from './context/CartContext';
 import { UserProvider } from './context/UserContext';
+import { ThemeProvider } from './context/ThemeContext'; // Import ThemeProvider
+import './styles/themes.css'; // Import comprehensive theme styles
 
 
 function App() {
   return (
-    <UserProvider>
-      <CartProvider>
-        <Router>
-          <div className="app-container">
-            <Navbar />
-            <main>
+    <ThemeProvider>
+      <UserProvider>
+        <CartProvider>
+          <Router>
+            <div className="app-container">
+              <Navbar />
+              <main>
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/cart" element={<CartPage />} />
@@ -50,6 +53,7 @@ function App() {
         </Router>
       </CartProvider>
     </UserProvider>
+  </ThemeProvider>
   );
 }
 

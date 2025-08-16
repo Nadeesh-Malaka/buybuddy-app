@@ -11,7 +11,7 @@
 }
 
 .manager-header h2 {
-  color: #333;
+  color: var(--text-primary);
   margin: 0;
 }
 
@@ -31,7 +31,7 @@
 
 .products-table {
   overflow-x: auto;
-  background: white;
+  background: var(--card-background);
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
@@ -45,13 +45,14 @@
 .products-table td {
   padding: 12px;
   text-align: left;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid var(--border-color);
+  color: var(--text-primary);
 }
 
 .products-table th {
-  background-color: #f8f9fa;
+  background-color: var(--bg-secondary);
   font-weight: 600;
-  color: #333;
+  color: var(--text-primary);
 }
 
 .product-image {

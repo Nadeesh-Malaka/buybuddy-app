@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Link } from 'react-router-dom';
 import { UserContext } from '../../context/UserContext';
 import { addressService } from '../../services/addressPaymentService';
 import Footer from '../../Components/Footer/Footer';
+import ProfileSidebar from '../../Components/ProfileSidebar/ProfileSidebar';
 import './AddressesPage.css';
 
 function AddressesPage() {
@@ -11,6 +11,24 @@ function AddressesPage() {
   const [showAddForm, setShowAddForm] = useState(false);
   const [editingAddress, setEditingAddress] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
+
+  // Auto-remove messages after 5 seconds
+  React.useEffect(() => {
+    if (success) {
+      const timer = setTimeout(() => setSuccess(''), 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [success]);
+
+  React.useEffect(() => {
+    if (error) {
+      const timer = setTimeout(() => setError(''), 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [error]);
+
   const [formData, setFormData] = useState({
     fullName: '',
     phoneNumber: '',
@@ -33,11 +51,12 @@ function AddressesPage() {
   const loadAddresses = async () => {
     try {
       setLoading(true);
+      setError('');
       const userAddresses = await addressService.getUserAddresses(user.id);
       setAddresses(userAddresses);
     } catch (error) {
       console.error('Error loading addresses:', error);
-      alert(error.message || 'Error loading addresses');
+      setError(error.message || 'Error loading addresses');
     } finally {
       setLoading(false);
     }
@@ -49,30 +68,35 @@ function AddressesPage() {
       ...prev,
       [name]: type === 'checkbox' ? checked : value
     }));
+    // Clear messages when user starts typing
+    if (error) setError('');
+    if (success) setSuccess('');
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!user || !user.id) {
-      alert('Please log in to manage addresses');
+      setError('Please log in to manage addresses');
       return;
     }
 
     try {
       setLoading(true);
+      setError('');
+      setSuccess('');
       if (editingAddress) {
         await addressService.updateAddress(editingAddress.id, formData);
-        alert('Address updated successfully!');
+        setSuccess('Address updated successfully!');
       } else {
         await addressService.addAddress(user.id, formData);
-        alert('Address added successfully!');
+        setSuccess('Address added successfully!');
       }
       
       resetForm();
       await loadAddresses(); // Wait for addresses to reload
     } catch (error) {
       console.error('Error saving address:', error);
-      alert(error.message || 'Error saving address');
+      setError(error.message || 'Error saving address');
     } finally {
       setLoading(false);
     }
@@ -93,17 +117,21 @@ function AddressesPage() {
       isDefault: address.isDefault || false
     });
     setShowAddForm(true);
+    setError('');
+    setSuccess('');
   };
 
   const handleSetDefault = async (addressId) => {
     try {
       setLoading(true);
+      setError('');
+      setSuccess('');
       await addressService.setDefaultAddress(addressId);
       await loadAddresses(); // Wait for addresses to reload
-      alert('Default address updated successfully!');
+      setSuccess('Default address updated successfully!');
     } catch (error) {
       console.error('Error setting default address:', error);
-      alert(error.message || 'Error setting default address');
+      setError(error.message || 'Error setting default address');
     } finally {
       setLoading(false);
     }
@@ -113,12 +141,14 @@ function AddressesPage() {
     if (window.confirm('Are you sure you want to delete this address?')) {
       try {
         setLoading(true);
+        setError('');
+        setSuccess('');
         await addressService.deleteAddress(addressId);
         await loadAddresses(); // Wait for addresses to reload
-        alert('Address deleted successfully!');
+        setSuccess('Address deleted successfully!');
       } catch (error) {
         console.error('Error deleting address:', error);
-        alert(error.message || 'Error deleting address');
+        setError(error.message || 'Error deleting address');
       } finally {
         setLoading(false);
       }
@@ -140,6 +170,8 @@ function AddressesPage() {
     });
     setEditingAddress(null);
     setShowAddForm(false);
+    setError('');
+    setSuccess('');
   };
 
   if (!user) {
@@ -155,37 +187,56 @@ function AddressesPage() {
   return (
     <div className="addresses-page">
       <main className="addresses-container">
-        <div className="profile-sidebar">
-          <ul className="sidebar-menu">
-            <li className="menu-item">
-              <Link to="/profile">
-                <i className="bi bi-person"></i> Profile
-              </Link>
-            </li>
-            <li className="menu-item active">
-              <Link to="/addresses">
-                <i className="bi bi-geo-alt"></i> Addresses
-              </Link>
-            </li>
-            <li className="menu-item">
-              <Link to="/payment-methods">
-                <i className="bi bi-credit-card"></i> Payment Methods
-              </Link>
-            </li>
-            <li className="menu-item">
-              <Link to="/order-history">
-                <i className="bi bi-box"></i> Order History
-              </Link>
-            </li>
-          </ul>
-        </div>
+        <ProfileSidebar />
         
         <div className="addresses-content">
+          {/* Success/Error Messages */}
+          {success && (
+            <div className="alert alert-success" style={{
+              color: '#0f5132',
+              backgroundColor: '#d1e7dd',
+              border: '1px solid #badbcc',
+              padding: '12px 16px',
+              borderRadius: '8px',
+              marginBottom: '20px',
+              fontWeight: '500',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
+            }}>
+              <i className="bi bi-check-circle-fill" style={{ color: '#198754', fontSize: '16px' }}></i>
+              {success}
+            </div>
+          )}
+          {error && (
+            <div className="alert alert-danger" style={{
+              color: '#842029',
+              backgroundColor: '#f8d7da',
+              border: '1px solid #f5c2c7',
+              padding: '12px 16px',
+              borderRadius: '8px',
+              marginBottom: '20px',
+              fontWeight: '500',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
+            }}>
+              <i className="bi bi-exclamation-triangle-fill" style={{ color: '#dc3545', fontSize: '16px' }}></i>
+              {error}
+            </div>
+          )}
+
           <div className="addresses-header">
             <h2>Saved Addresses</h2>
             <button 
               className="add-address-btn"
-              onClick={() => setShowAddForm(true)}
+              onClick={() => {
+                setShowAddForm(true);
+                setError('');
+                setSuccess('');
+              }}
               disabled={loading}
             >
               Add New Address

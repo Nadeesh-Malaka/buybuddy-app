@@ -1,13 +1,13 @@
 /* src/Components/WhyShop/WhyShop.css */
 .why-shop {
-    background-color: #f8f9fa; /* Light gray background like ShopMini */
+    background-color: var(--card-background);
     padding: 40px 20px;
   }
   
   .why-shop-title {
     font-size: 2rem;
     font-weight: 600;
-    color: #333;
+    color: var(--text-primary);
     text-align: center;
     margin-bottom: 30px;
   }
@@ -29,8 +29,8 @@
   }
   
   .why-shop-icon {
-    background-color: #e0e7ff; /* Light blue background for icons */
-    color: #3b5bdb; /* Blue icon color to match theme */
+    background-color: rgba(59, 91, 219, 0.1);
+    color: var(--primary-color);
     width: 60px;
     height: 60px;
     border-radius: 50%;
@@ -46,13 +46,13 @@
   
   .why-shop-item h5 {
     font-size: 1.2rem;
-    color: #333;
+    color: var(--text-primary);
     margin-bottom: 10px;
   }
   
   .why-shop-item p {
     font-size: 0.9rem;
-    color: #666;
+    color: var(--text-secondary);
   }
   
   /* Responsive adjustments */

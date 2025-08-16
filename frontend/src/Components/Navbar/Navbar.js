@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css'; // Bootstrap for layout
 import { useCart } from '../../context/CartContext'; // Import useCart
 import { useUser } from '../../context/UserContext'; // Import useUser
+import ThemeToggle from '../ThemeToggle/ThemeToggle'; // Import ThemeToggle
 import './Navbar.css'; // Custom CSS
 
 function Navbar() {
@@ -110,6 +111,10 @@ function Navbar() {
               <i className="bi bi-cart"></i>
               <span className="badge">{cartItems ? cartItems.length : 0}</span>
             </Link>
+            
+            {/* Theme Toggle */}
+            <ThemeToggle />
+            
             {isLoggedIn ? (
               <div className="navbar-user-dropdown">
                 <img

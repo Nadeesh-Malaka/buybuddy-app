@@ -1,6 +1,9 @@
 /* src/Pages/Home/Home.css */
 .home {
     padding: 0;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    min-height: 100vh;
   }
   
   .products-section {
@@ -18,7 +21,7 @@
   
   .products-header h4 {
     font-size: 1.5rem;
-    color: #333;
+    color: var(--text-primary);
   }
   
   .products-controls {
@@ -34,6 +37,9 @@
     font-size: 0.9rem;
     padding: 8px 12px;
     border-radius: 5px;
+    border: 1px solid var(--border-input);
+    background-color: var(--bg-input);
+    color: var(--text-primary);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -43,8 +49,8 @@
   }
 
   .products-controls .dropdown-toggle:hover {
-    background-color: #747576;
-    border-color: #6c757d;
+    background-color: var(--bg-tertiary);
+    border-color: var(--border-focus);
   }
 
   .products-controls .dropdown-toggle i {
@@ -67,10 +73,10 @@
     min-width: 160px;
     padding: 8px 0;
     margin: 2px 0 0;
-    background-color: #fff;
-    border: 1px solid #dee2e6;
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-light);
     border-radius: 5px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow-dropdown);
     max-height: 300px;
     overflow-y: auto;
   }
@@ -85,7 +91,7 @@
     padding: 8px 16px;
     clear: both;
     font-weight: 400;
-    color: #333;
+    color: var(--text-primary);
     text-align: left;
     text-decoration: none;
     white-space: nowrap;
@@ -97,13 +103,13 @@
 
   .products-controls .dropdown-item:hover,
   .products-controls .dropdown-item:focus {
-    background-color: #f8f9fa;
-    color: #495057;
+    background-color: var(--bg-tertiary);
+    color: var(--text-primary);
   }
 
   .products-controls .dropdown-item:active {
-    background-color: #007bff;
-    color: #fff;
+    background-color: var(--accent-primary);
+    color: white;
   }
   
   .products-grid {
