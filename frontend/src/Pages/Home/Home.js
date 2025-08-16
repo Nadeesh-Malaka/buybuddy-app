@@ -17,6 +17,8 @@ function Home() {
   const [sortBy, setSortBy] = useState('Featured');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [showCategoryDropdown, setShowCategoryDropdown] = useState(false);
+  const [showSortDropdown, setShowSortDropdown] = useState(false);
   const { addToCart } = useCart();
 
   useEffect(() => {
@@ -55,6 +57,19 @@ function Home() {
     filterAndSortProducts();
   }, [filterAndSortProducts]);
 
+  // Close dropdowns when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (!event.target.closest('.dropdown')) {
+        setShowCategoryDropdown(false);
+        setShowSortDropdown(false);
+      }
+    };
+
+    document.addEventListener('click', handleClickOutside);
+    return () => document.removeEventListener('click', handleClickOutside);
+  }, []);
+
   const fetchData = async () => {
     try {
       setLoading(true);
@@ -75,6 +90,16 @@ function Home() {
 
   const handleAddToCart = (product) => {
     addToCart(product);
+  };
+
+  const handleCategorySelect = (categoryName) => {
+    setSelectedCategory(categoryName);
+    setShowCategoryDropdown(false);
+  };
+
+  const handleSortSelect = (sortOption) => {
+    setSortBy(sortOption);
+    setShowSortDropdown(false);
   };
 
   if (loading) {
@@ -120,33 +145,80 @@ function Home() {
           <h4>Products ({filteredProducts.length})</h4>
           <div className="products-controls">
             <div className="dropdown">
-              <button className="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                {selectedCategory}
+              <button 
+                className="btn btn-outline-secondary dropdown-toggle" 
+                type="button" 
+                onClick={() => setShowCategoryDropdown(!showCategoryDropdown)}
+              >
+                {selectedCategory} <i className="bi bi-chevron-down"></i>
               </button>
-              <ul className="dropdown-menu">
-                <li><button className="dropdown-item" onClick={() => setSelectedCategory('All')}>All</button></li>
-                {categories.map(category => (
-                  <li key={category.id}>
+              {showCategoryDropdown && (
+                <ul className="dropdown-menu show">
+                  <li>
                     <button 
                       className="dropdown-item" 
-                      onClick={() => setSelectedCategory(category.name)}
+                      onClick={() => handleCategorySelect('All')}
                     >
-                      {category.name}
+                      All
                     </button>
                   </li>
-                ))}
-              </ul>
+                  {categories.map(category => (
+                    <li key={category.id}>
+                      <button 
+                        className="dropdown-item" 
+                        onClick={() => handleCategorySelect(category.name)}
+                      >
+                        {category.name}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
             <div className="dropdown ms-2">
-              <button className="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                Sort by: {sortBy}
+              <button 
+                className="btn btn-outline-secondary dropdown-toggle" 
+                type="button" 
+                onClick={() => setShowSortDropdown(!showSortDropdown)}
+              >
+                Sort by: {sortBy} <i className="bi bi-chevron-down"></i>
               </button>
-              <ul className="dropdown-menu">
-                <li><button className="dropdown-item" onClick={() => setSortBy('Featured')}>Featured</button></li>
-                <li><button className="dropdown-item" onClick={() => setSortBy('Price: Low to High')}>Price: Low to High</button></li>
-                <li><button className="dropdown-item" onClick={() => setSortBy('Price: High to Low')}>Price: High to Low</button></li>
-                <li><button className="dropdown-item" onClick={() => setSortBy('Rating')}>Rating</button></li>
-              </ul>
+              {showSortDropdown && (
+                <ul className="dropdown-menu show">
+                  <li>
+                    <button 
+                      className="dropdown-item" 
+                      onClick={() => handleSortSelect('Featured')}
+                    >
+                      Featured
+                    </button>
+                  </li>
+                  <li>
+                    <button 
+                      className="dropdown-item" 
+                      onClick={() => handleSortSelect('Price: Low to High')}
+                    >
+                      Price: Low to High
+                    </button>
+                  </li>
+                  <li>
+                    <button 
+                      className="dropdown-item" 
+                      onClick={() => handleSortSelect('Price: High to Low')}
+                    >
+                      Price: High to Low
+                    </button>
+                  </li>
+                  <li>
+                    <button 
+                      className="dropdown-item" 
+                      onClick={() => handleSortSelect('Rating')}
+                    >
+                      Rating
+                    </button>
+                  </li>
+                </ul>
+              )}
             </div>
           </div>
         </div>
