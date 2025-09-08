@@ -16,15 +16,19 @@
 .navbar-brand {
   font-size: 1.5rem;
   font-weight: bold;
-  text-decoration: none;
+  text-decoration: none; /* Remove underline */
   color: var(--accent-primary, #3b5bdb);
-  text-decoration: none !important;
   transition: color 0.3s ease;
 }
 
-.navbar-brand:hover {
+.navbar-brand a {
+  text-decoration: none !important; /* Explicitly remove underline for the Link component */
+  color: var(--accent-primary, #3b5bdb);
+}
+
+.navbar-brand a:hover {
   color: var(--accent-dark, #2a4bb5);
-  text-decoration: none !important;
+  text-decoration: none !important; /* Keep underline off on hover */
 }
 
 .navbar-collapse {
