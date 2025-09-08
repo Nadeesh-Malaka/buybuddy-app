@@ -16,6 +16,14 @@ function Cart() {
   const freeShippingThreshold = 500;
   const remainingForFreeShipping = freeShippingThreshold - subtotal;
 
+  // Construct full image URL
+  const getImageUrl = (imagePath) => {
+    if (!imagePath) return '/api/placeholder/250/250';
+    if (imagePath.startsWith('http')) return imagePath;
+    // Backend returns the full path including /uploads/
+    return `http://localhost:8080${imagePath}`;
+  };
+
   const handleQuantityChange = (item, change) => {
     const newQuantity = item.quantity + change;
     if (newQuantity >= 1) {
@@ -44,7 +52,7 @@ function Cart() {
             <div className="cart-items">
               {cartItems.map(item => (
                 <div key={item.id} className="cart-item">
-                  <img src={item.image} alt={item.name} className="cart-item-image" />
+                  <img src={getImageUrl(item.image || item.imageUrl)} alt={item.name} className="cart-item-image" />
                   <div className="cart-item-details">
                     <h5>{item.name}</h5>
                     <p className="cart-item-category">Accessories</p>
