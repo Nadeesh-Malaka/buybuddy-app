@@ -1,7 +1,8 @@
 // src/Pages/Profile/ProfilePage.js
 import React, { useState, useRef } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Footer from '../../Components/Footer/Footer';
+import ProfileSidebar from '../../Components/ProfileSidebar/ProfileSidebar';
 import { useUser } from '../../context/UserContext';
 import userService from '../../services/userService';
 import './ProfilePage.css';
@@ -20,6 +21,8 @@ function ProfilePage() {
     name: user?.name || '',
     email: user?.email || '',
     number: user?.number || '',
+    birthday: user?.birthday || '',
+    gender: user?.gender || '',
     password: '',
   });
 
@@ -30,6 +33,8 @@ function ProfilePage() {
         name: user.name || '',
         email: user.email || '',
         number: user.number || '',
+        birthday: user.birthday || '',
+        gender: user.gender || '',
         password: '',
       });
     }
@@ -83,6 +88,8 @@ function ProfilePage() {
         name: formData.name,
         email: formData.email,
         number: formData.number,
+        birthday: formData.birthday,
+        gender: formData.gender,
         password: formData.password || user.password, // Keep existing password if not changed
         profilePic: user.profilePic
       });
@@ -110,6 +117,8 @@ function ProfilePage() {
       name: user?.name || '',
       email: user?.email || '',
       number: user?.number || '',
+      birthday: user?.birthday || '',
+      gender: user?.gender || '',
       password: '',
     });
   };
@@ -158,30 +167,7 @@ function ProfilePage() {
   return (
     <div className="profile-page">
       <main className="profile-container">
-        <div className="profile-sidebar">
-          <ul className="sidebar-menu">
-            <li className="menu-item active">
-              <Link to="/profile">
-                <i className="bi bi-person"></i> Profile
-              </Link>
-            </li>
-            <li className="menu-item">
-              <Link to="/addresses">
-                <i className="bi bi-geo-alt"></i> Addresses
-              </Link>
-            </li>
-            <li className="menu-item">
-              <Link to="/payment-methods">
-                <i className="bi bi-credit-card"></i> Payment Methods
-              </Link>
-            </li>
-            <li className="menu-item">
-              <Link to="/order-history">
-                <i className="bi bi-box"></i> Order History
-              </Link>
-            </li>
-          </ul>
-        </div>
+        <ProfileSidebar />
         <div className="profile-content">
           {/* Success/Error Messages */}
           {success && (
@@ -258,59 +244,6 @@ function ProfilePage() {
           </div>
 
           <div className="profile-details">
-            <div className="profile-actions" style={{ marginBottom: '20px' }}>
-              {!isEditing ? (
-                <button 
-                  className="btn btn-primary"
-                  onClick={() => setIsEditing(true)}
-                  style={{
-                    backgroundColor: '#007bff',
-                    border: 'none',
-                    padding: '10px 20px',
-                    borderRadius: '4px',
-                    color: 'white',
-                    cursor: 'pointer'
-                  }}
-                >
-                  Edit Profile
-                </button>
-              ) : (
-                <div>
-                  <button 
-                    className="btn btn-success"
-                    onClick={handleSaveProfile}
-                    disabled={profileLoading}
-                    style={{
-                      backgroundColor: '#28a745',
-                      border: 'none',
-                      padding: '10px 20px',
-                      borderRadius: '4px',
-                      color: 'white',
-                      cursor: 'pointer',
-                      marginRight: '10px'
-                    }}
-                  >
-                    {profileLoading ? 'Saving...' : 'Save Changes'}
-                  </button>
-                  <button 
-                    className="btn btn-secondary"
-                    onClick={handleCancelEdit}
-                    disabled={profileLoading}
-                    style={{
-                      backgroundColor: '#6c757d',
-                      border: 'none',
-                      padding: '10px 20px',
-                      borderRadius: '4px',
-                      color: 'white',
-                      cursor: 'pointer'
-                    }}
-                  >
-                    Cancel
-                  </button>
-                </div>
-              )}
-            </div>
-
             <div className="detail-item">
               <label>Full Name</label>
               <input 
@@ -362,6 +295,45 @@ function ProfilePage() {
                 }}
               />
             </div>
+            <div className="detail-item">
+              <label>Birthday</label>
+              <input 
+                type="date" 
+                name="birthday"
+                value={formData.birthday}
+                onChange={handleInputChange}
+                readOnly={!isEditing}
+                style={{
+                  backgroundColor: isEditing ? 'white' : '#f8f9fa',
+                  border: isEditing ? '1px solid #ced4da' : '1px solid #e9ecef',
+                  padding: '8px 12px',
+                  borderRadius: '4px',
+                  width: '100%'
+                }}
+              />
+            </div>
+            <div className="detail-item">
+              <label>Gender</label>
+              <select 
+                name="gender"
+                value={formData.gender}
+                onChange={handleInputChange}
+                disabled={!isEditing}
+                style={{
+                  backgroundColor: isEditing ? 'white' : '#f8f9fa',
+                  border: isEditing ? '1px solid #ced4da' : '1px solid #e9ecef',
+                  padding: '8px 12px',
+                  borderRadius: '4px',
+                  width: '100%'
+                }}
+              >
+                <option value="">Select Gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+                <option value="prefer-not-to-say">Prefer not to say</option>
+              </select>
+            </div>
             {isEditing && (
               <div className="detail-item">
                 <label>New Password (leave blank to keep current)</label>
@@ -379,6 +351,58 @@ function ProfilePage() {
                     width: '100%'
                   }}
                 />
+              </div>
+            )}
+          </div>
+
+          <div className="profile-actions">
+            {!isEditing ? (
+              <button 
+                className="edit-profile-btn"
+                onClick={() => setIsEditing(true)}
+              >
+                Edit Profile
+              </button>
+            ) : (
+              <div style={{ display: 'flex', gap: '12px', justifyContent: 'center' }}>
+                <button 
+                  className="btn btn-success"
+                  onClick={handleSaveProfile}
+                  disabled={profileLoading}
+                  style={{
+                    backgroundColor: '#198754',
+                    border: '2px solid #198754',
+                    padding: '12px 24px',
+                    borderRadius: '8px',
+                    color: 'white',
+                    cursor: profileLoading ? 'not-allowed' : 'pointer',
+                    fontWeight: '600',
+                    fontSize: '14px',
+                    transition: 'all 0.3s ease',
+                    opacity: profileLoading ? 0.7 : 1
+                  }}
+                >
+                  {profileLoading ? 'Saving...' : 'Save Changes'}
+                </button>
+                <button 
+                  className="btn btn-secondary"
+                  onClick={handleCancelEdit}
+                  disabled={profileLoading}
+                  style={{
+                    backgroundColor: '#6c757d',
+                    border: '2px solid #6c757d',
+                    padding: '12px 24px',
+                    borderRadius: '8px',
+                    color: 'white',
+                    cursor: profileLoading ? 'not-allowed' : 'pointer',
+                    fontWeight: '600',
+                    fontSize: '14px',
+                    transition: 'all 0.3s ease',
+                    opacity: profileLoading ? 0.7 : 1
+                  }}
+                >
+                  Cancel
+                </button>
               </div>
             )}
           </div>

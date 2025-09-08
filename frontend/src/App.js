@@ -8,6 +8,7 @@ import OrderConfirmationPage from './Pages/OrderConfirmation/OrderConfirmationPa
 import ProductDetailPage from './Pages/ProductDetail/ProductDetailPage';
 import CategoriesPage from './Pages/Categories/CategoriesPage';
 import DealsPage from './Pages/Deals/DealsPage';
+import SearchResults from './Pages/SearchResults/SearchResults'; // Import SearchResults
 import LoginPage from './Pages/Login/LoginPage';
 import SignUpPage from './Pages/SignUp/SignUpPage';
 import ProfilePage from './Pages/Profile/ProfilePage';
@@ -17,16 +18,19 @@ import OrderHistoryPage from './Pages/OrderHistory/OrderHistoryPage'; // Import 
 import AdminPage from './Pages/Admin/AdminPage'; // Import AdminPage
 import { CartProvider } from './context/CartContext';
 import { UserProvider } from './context/UserContext';
+import { ThemeProvider } from './context/ThemeContext'; // Import ThemeProvider
+import './styles/themes.css'; // Import comprehensive theme styles
 
 
 function App() {
   return (
-    <UserProvider>
-      <CartProvider>
-        <Router>
-          <div className="app-container">
-            <Navbar />
-            <main>
+    <ThemeProvider>
+      <UserProvider>
+        <CartProvider>
+          <Router>
+            <div className="app-container">
+              <Navbar />
+              <main>
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/cart" element={<CartPage />} />
@@ -35,6 +39,7 @@ function App() {
                 <Route path="/product/:id" element={<ProductDetailPage />} />
                 <Route path="/categories" element={<CategoriesPage />} />
                 <Route path="/deals" element={<DealsPage />} />
+                <Route path="/search" element={<SearchResults />} />
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/signup" element={<SignUpPage />} />
                 <Route path="/profile" element={<ProfilePage />} />
@@ -48,6 +53,7 @@ function App() {
         </Router>
       </CartProvider>
     </UserProvider>
+  </ThemeProvider>
   );
 }
 

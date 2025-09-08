@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Link } from 'react-router-dom';
 import { UserContext } from '../../context/UserContext';
 import { paymentMethodService } from '../../services/addressPaymentService';
 import Footer from '../../Components/Footer/Footer';
+import ProfileSidebar from '../../Components/ProfileSidebar/ProfileSidebar';
 import './PaymentMethodsPage.css';
 
 function PaymentMethodsPage() {
@@ -11,6 +11,24 @@ function PaymentMethodsPage() {
   const [showAddForm, setShowAddForm] = useState(false);
   const [editingPaymentMethod, setEditingPaymentMethod] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
+
+  // Auto-remove messages after 5 seconds
+  React.useEffect(() => {
+    if (success) {
+      const timer = setTimeout(() => setSuccess(''), 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [success]);
+
+  React.useEffect(() => {
+    if (error) {
+      const timer = setTimeout(() => setError(''), 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [error]);
+
   const [formData, setFormData] = useState({
     cardType: 'CREDIT',
     cardNumber: '',
@@ -30,11 +48,12 @@ function PaymentMethodsPage() {
   const loadPaymentMethods = async () => {
     try {
       setLoading(true);
+      setError('');
       const userPaymentMethods = await paymentMethodService.getUserPaymentMethods(user.id);
       setPaymentMethods(userPaymentMethods);
     } catch (error) {
       console.error('Error loading payment methods:', error);
-      alert(error.message || 'Error loading payment methods');
+      setError(error.message || 'Error loading payment methods');
     } finally {
       setLoading(false);
     }
@@ -46,12 +65,15 @@ function PaymentMethodsPage() {
       ...prev,
       [name]: type === 'checkbox' ? checked : value
     }));
+    // Clear messages when user starts typing
+    if (error) setError('');
+    if (success) setSuccess('');
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!user || !user.id) {
-      alert('Please log in to manage payment methods');
+      setError('Please log in to manage payment methods');
       return;
     }
 
@@ -60,21 +82,23 @@ function PaymentMethodsPage() {
 
     try {
       setLoading(true);
+      setError('');
+      setSuccess('');
       if (editingPaymentMethod) {
         console.log('Updating payment method with ID:', editingPaymentMethod.id);
         await paymentMethodService.updatePaymentMethod(editingPaymentMethod.id, formData);
-        alert('Payment method updated successfully!');
+        setSuccess('Payment method updated successfully!');
       } else {
         console.log('Adding new payment method for user:', user.id);
         await paymentMethodService.addPaymentMethod(user.id, formData);
-        alert('Payment method added successfully!');
+        setSuccess('Payment method added successfully!');
       }
       
       resetForm();
       await loadPaymentMethods(); // Wait for payment methods to reload
     } catch (error) {
       console.error('Error saving payment method:', error);
-      alert(error.message || 'Error saving payment method');
+      setError(error.message || 'Error saving payment method');
     } finally {
       setLoading(false);
     }
@@ -92,17 +116,21 @@ function PaymentMethodsPage() {
       isDefault: paymentMethod.isDefault || false
     });
     setShowAddForm(true);
+    setError('');
+    setSuccess('');
   };
 
   const handleSetDefault = async (paymentMethodId) => {
     try {
       setLoading(true);
+      setError('');
+      setSuccess('');
       await paymentMethodService.setDefaultPaymentMethod(paymentMethodId);
       await loadPaymentMethods(); // Wait for payment methods to reload
-      alert('Default payment method updated successfully!');
+      setSuccess('Default payment method updated successfully!');
     } catch (error) {
       console.error('Error setting default payment method:', error);
-      alert(error.message || 'Error setting default payment method');
+      setError(error.message || 'Error setting default payment method');
     } finally {
       setLoading(false);
     }
@@ -112,12 +140,14 @@ function PaymentMethodsPage() {
     if (window.confirm('Are you sure you want to delete this payment method?')) {
       try {
         setLoading(true);
+        setError('');
+        setSuccess('');
         await paymentMethodService.deletePaymentMethod(paymentMethodId);
         await loadPaymentMethods(); // Wait for payment methods to reload
-        alert('Payment method deleted successfully!');
+        setSuccess('Payment method deleted successfully!');
       } catch (error) {
         console.error('Error deleting payment method:', error);
-        alert(error.message || 'Error deleting payment method');
+        setError(error.message || 'Error deleting payment method');
       } finally {
         setLoading(false);
       }
@@ -136,6 +166,8 @@ function PaymentMethodsPage() {
     });
     setEditingPaymentMethod(null);
     setShowAddForm(false);
+    setError('');
+    setSuccess('');
   };
 
   const maskCardNumber = (cardNumber) => {
@@ -184,37 +216,56 @@ function PaymentMethodsPage() {
   return (
     <div className="payment-methods-page">
       <main className="payment-methods-container">
-        <div className="profile-sidebar">
-          <ul className="sidebar-menu">
-            <li className="menu-item">
-              <Link to="/profile">
-                <i className="bi bi-person"></i> Profile
-              </Link>
-            </li>
-            <li className="menu-item">
-              <Link to="/addresses">
-                <i className="bi bi-geo-alt"></i> Addresses
-              </Link>
-            </li>
-            <li className="menu-item active">
-              <Link to="/payment-methods">
-                <i className="bi bi-credit-card"></i> Payment Methods
-              </Link>
-            </li>
-            <li className="menu-item">
-              <Link to="/order-history">
-                <i className="bi bi-box"></i> Order History
-              </Link>
-            </li>
-          </ul>
-        </div>
+        <ProfileSidebar />
         
         <div className="payment-methods-content">
+          {/* Success/Error Messages */}
+          {success && (
+            <div className="alert alert-success" style={{
+              color: '#0f5132',
+              backgroundColor: '#d1e7dd',
+              border: '1px solid #badbcc',
+              padding: '12px 16px',
+              borderRadius: '8px',
+              marginBottom: '20px',
+              fontWeight: '500',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
+            }}>
+              <i className="bi bi-check-circle-fill" style={{ color: '#198754', fontSize: '16px' }}></i>
+              {success}
+            </div>
+          )}
+          {error && (
+            <div className="alert alert-danger" style={{
+              color: '#842029',
+              backgroundColor: '#f8d7da',
+              border: '1px solid #f5c2c7',
+              padding: '12px 16px',
+              borderRadius: '8px',
+              marginBottom: '20px',
+              fontWeight: '500',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
+            }}>
+              <i className="bi bi-exclamation-triangle-fill" style={{ color: '#dc3545', fontSize: '16px' }}></i>
+              {error}
+            </div>
+          )}
+
           <div className="payment-methods-header">
             <h2>Saved Payment Methods</h2>
             <button 
               className="add-payment-method-btn"
-              onClick={() => setShowAddForm(true)}
+              onClick={() => {
+                setShowAddForm(true);
+                setError('');
+                setSuccess('');
+              }}
               disabled={loading}
             >
               Add New Payment Method

@@ -3,11 +3,29 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom'; // Add useNavigate
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useCart } from '../../context/CartContext';
+import { useUser } from '../../context/UserContext';
 import './Cart.css';
 
 function Cart() {
   const { cartItems, updateQuantity, removeFromCart, clearCart } = useCart();
+  const { isLoggedIn } = useUser();
   const navigate = useNavigate(); // Add navigate hook
+
+  // If user is not logged in, show login prompt
+  if (!isLoggedIn) {
+    return (
+      <section className="cart">
+        <div className="cart-empty">
+          <div className="cart-empty-icon">
+            <i className="bi bi-person-lock"></i>
+          </div>
+          <h2>Please log in to view your cart</h2>
+          <p>You need to be logged in to add and view items in your cart.</p>
+          <Link to="/login" className="btn btn-primary">Log In</Link>
+        </div>
+      </section>
+    );
+  }
 
   const subtotal = cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
   const shipping = 10.00;
@@ -15,6 +33,14 @@ function Cart() {
   const total = subtotal + shipping + tax;
   const freeShippingThreshold = 500;
   const remainingForFreeShipping = freeShippingThreshold - subtotal;
+
+  // Construct full image URL
+  const getImageUrl = (imagePath) => {
+    if (!imagePath) return '/api/placeholder/250/250';
+    if (imagePath.startsWith('http')) return imagePath;
+    // Backend returns the full path including /uploads/
+    return `http://localhost:8080${imagePath}`;
+  };
 
   const handleQuantityChange = (item, change) => {
     const newQuantity = item.quantity + change;
@@ -44,7 +70,7 @@ function Cart() {
             <div className="cart-items">
               {cartItems.map(item => (
                 <div key={item.id} className="cart-item">
-                  <img src={item.image} alt={item.name} className="cart-item-image" />
+                  <img src={getImageUrl(item.image || item.imageUrl)} alt={item.name} className="cart-item-image" />
                   <div className="cart-item-details">
                     <h5>{item.name}</h5>
                     <p className="cart-item-category">Accessories</p>

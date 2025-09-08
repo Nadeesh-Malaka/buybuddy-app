@@ -45,6 +45,7 @@ export const UserProvider = ({ children }) => {
     setUser(null);
     localStorage.removeItem('user');
     sessionStorage.removeItem('user');
+    // No need to clear cart from localStorage anymore since we use backend
   };
 
   const updateUser = (updatedUserData) => {
