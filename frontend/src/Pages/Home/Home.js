@@ -1,5 +1,6 @@
 // src/Pages/Home/Home.js
 import React, { useState, useEffect, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Headers from '../../Components/Header/Header';
 import ProductCard from '../../Components/ProductCard/ProductCard';
 import WhyShop from '../../Components/WhyShop/WhyShop';
@@ -19,7 +20,9 @@ function Home() {
   const [error, setError] = useState(null);
   const [showCategoryDropdown, setShowCategoryDropdown] = useState(false);
   const [showSortDropdown, setShowSortDropdown] = useState(false);
+  const [showLoginAlert, setShowLoginAlert] = useState(false);
   const { addToCart } = useCart();
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchData();
@@ -88,8 +91,26 @@ function Home() {
     }
   };
 
-  const handleAddToCart = (product) => {
-    addToCart(product);
+  const handleAddToCart = async (product) => {
+    try {
+      const result = await addToCart(product);
+      if (result && result.requiresLogin) {
+        // Show user-friendly alert
+        setShowLoginAlert(true);
+        // Auto redirect after 3 seconds
+        setTimeout(() => {
+          navigate('/login');
+        }, 3000);
+      } else if (result && result.success) {
+        // Optional: Show success message
+        console.log('Item added to cart successfully');
+      } else if (result && result.error) {
+        // Show error message
+        console.error('Error adding to cart:', result.error);
+      }
+    } catch (error) {
+      console.error('Error in handleAddToCart:', error);
+    }
   };
 
   const handleCategorySelect = (categoryName) => {
@@ -140,6 +161,29 @@ function Home() {
   return (
     <div className="home">
       <Headers />
+      
+      {/* Login Alert */}
+      {showLoginAlert && (
+        <div className="alert alert-warning alert-dismissible fade show position-fixed" 
+             style={{top: '20px', right: '20px', zIndex: 9999, minWidth: '300px'}}>
+          <strong>Login Required!</strong>
+          <p className="mb-2">You need to log in to add items to your cart.</p>
+          <p className="mb-2">Redirecting to login page in 3 seconds...</p>
+          <button 
+            type="button" 
+            className="btn btn-sm btn-primary me-2"
+            onClick={() => navigate('/login')}
+          >
+            Go to Login
+          </button>
+          <button 
+            type="button" 
+            className="btn-close" 
+            onClick={() => setShowLoginAlert(false)}
+          ></button>
+        </div>
+      )}
+      
       <div className="products-section" id='products'>
         <div className="products-header">
           <h4>Products ({filteredProducts.length})</h4>

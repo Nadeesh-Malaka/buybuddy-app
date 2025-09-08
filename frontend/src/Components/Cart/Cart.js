@@ -3,11 +3,29 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom'; // Add useNavigate
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useCart } from '../../context/CartContext';
+import { useUser } from '../../context/UserContext';
 import './Cart.css';
 
 function Cart() {
   const { cartItems, updateQuantity, removeFromCart, clearCart } = useCart();
+  const { isLoggedIn } = useUser();
   const navigate = useNavigate(); // Add navigate hook
+
+  // If user is not logged in, show login prompt
+  if (!isLoggedIn) {
+    return (
+      <section className="cart">
+        <div className="cart-empty">
+          <div className="cart-empty-icon">
+            <i className="bi bi-person-lock"></i>
+          </div>
+          <h2>Please log in to view your cart</h2>
+          <p>You need to be logged in to add and view items in your cart.</p>
+          <Link to="/login" className="btn btn-primary">Log In</Link>
+        </div>
+      </section>
+    );
+  }
 
   const subtotal = cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
   const shipping = 10.00;

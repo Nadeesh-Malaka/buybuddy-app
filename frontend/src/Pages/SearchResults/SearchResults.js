@@ -14,6 +14,7 @@ function SearchResults() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [showLoginAlert, setShowLoginAlert] = useState(false);
   const { addToCart } = useCart();
 
   useEffect(() => {
@@ -39,8 +40,26 @@ function SearchResults() {
     }
   };
 
-  const handleAddToCart = (product) => {
-    addToCart(product);
+  const handleAddToCart = async (product) => {
+    try {
+      const result = await addToCart(product);
+      if (result && result.requiresLogin) {
+        // Show user-friendly alert
+        setShowLoginAlert(true);
+        // Auto redirect after 3 seconds
+        setTimeout(() => {
+          navigate('/login');
+        }, 3000);
+      } else if (result && result.success) {
+        // Optional: Show success message
+        console.log('Item added to cart successfully');
+      } else if (result && result.error) {
+        // Show error message
+        console.error('Error adding to cart:', result.error);
+      }
+    } catch (error) {
+      console.error('Error in handleAddToCart:', error);
+    }
   };
 
   const handleNewSearch = (e) => {
@@ -107,6 +126,28 @@ function SearchResults() {
 
   return (
     <div className="search-results">
+      {/* Login Alert */}
+      {showLoginAlert && (
+        <div className="alert alert-warning alert-dismissible fade show position-fixed" 
+             style={{top: '20px', right: '20px', zIndex: 9999, minWidth: '300px'}}>
+          <strong>Login Required!</strong>
+          <p className="mb-2">You need to log in to add items to your cart.</p>
+          <p className="mb-2">Redirecting to login page in 3 seconds...</p>
+          <button 
+            type="button" 
+            className="btn btn-sm btn-primary me-2"
+            onClick={() => navigate('/login')}
+          >
+            Go to Login
+          </button>
+          <button 
+            type="button" 
+            className="btn-close" 
+            onClick={() => setShowLoginAlert(false)}
+          ></button>
+        </div>
+      )}
+      
       <div className="container">
         <div className="search-header">
           <h2>

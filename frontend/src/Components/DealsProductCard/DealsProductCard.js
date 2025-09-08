@@ -24,11 +24,17 @@ function DealsProductCard({ product, addToCart }) {
     return stars;
   };
 
-  const handleAddToCart = () => {
-    // Add the product with its original price to the cart
-    addToCart({ ...product, price: product.originalPrice }); // Use original price
-    setIsAdded(true);
-    setTimeout(() => setIsAdded(false), 1000);
+  const handleAddToCart = async () => {
+    try {
+      // Use the addToCart function passed from parent component
+      if (addToCart) {
+        await addToCart({ ...product, price: product.originalPrice }); // Use original price
+        setIsAdded(true);
+        setTimeout(() => setIsAdded(false), 1000);
+      }
+    } catch (error) {
+      console.error('Error in handleAddToCart:', error);
+    }
   };
 
   // Construct full image URL
