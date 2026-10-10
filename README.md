@@ -1154,5 +1154,3 @@ Thank you for using BuyBuddy! We hope you enjoy the seamless shopping experience
 
 ---
 
-*Last Updated: October 10, 2024*
-*Maintained by: Nadeesh Malaka*
